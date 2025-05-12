@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,10 +13,37 @@ namespace Observability.App
     internal async Task<int> MakeRequestToGoogleAsync()
     {
       using var activity = ActivitySourceProvider.source.StartActivity();
-      var result = await httpClient.GetAsync("https://www.google.com"); // Send request to Google.
+      try
+      {
+       
+        var result = await httpClient.GetAsync("https://www.google.com");
+        var eventTags = new ActivityTagsCollection();
+        eventTags.Add("userId", 30);
+        eventTags.Add("env", "prod");
+        eventTags.Add("env", "prod");
 
-      var responseContent = await result.Content.ReadAsStringAsync(); // Read response data.
-      return responseContent.Length; // Return the length of the content.
+        activity.AddEvent(new("started request to google", tags: eventTags));
+        activity.AddTag("request.schema", "https");
+        activity.AddTag("request.metho", "get");
+
+
+
+        var responseContent = await result.Content.ReadAsStringAsync();
+        eventTags.Add("google body length", responseContent.Length);
+        activity.AddEvent(new("completed request to google", tags: eventTags));
+
+        var servicesTwo = new ServiceTwo();
+        var fileLength = await servicesTwo.WriteToFile("hello world");
+        Console.WriteLine($"file length: {fileLength}");
+
+
+        return responseContent.Length;
+      }
+      catch (Exception ex)
+      {
+        activity?.SetStatus(ActivityStatusCode.Error,ex.Message);
+        throw ex;
+      }
     }
   }
 }

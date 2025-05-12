@@ -6,10 +6,10 @@ using OpenTelemetry.Trace;
 
 //DI CONTAINER yok console da
 var traceProvider = Sdk.CreateTracerProviderBuilder().AddSource(OpenTelemetryConstants.ActivitySourceName) //kuyruk sistemine gönderilen datanın da tracedatasını tutmak istiyorum.kuyruga gdiden mesajları dinler"
-.ConfigureResource(res =>
+.ConfigureResource(traceProvider =>
 {
   //keywords verirken opentelemetry datası üretirken aşağıdaki bilgiler gelicek datanın nereden üreileceğini öğrrenmiş olacağız.
-  res.AddService(OpenTelemetryConstants.ServiceName, serviceVersion:OpenTelemetryConstants.ServiceVersion
+  traceProvider.AddService(OpenTelemetryConstants.ServiceName, serviceVersion:OpenTelemetryConstants.ServiceVersion
      ).AddAttributes(new List<KeyValuePair<string, object>>()
         {
           new KeyValuePair<string, object>("host.machineName", Environment.MachineName),
