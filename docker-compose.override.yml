@@ -4,6 +4,10 @@ services:
     image: jaegertracing/all-in-one:1.49
     container_name: "jaeger-container"
     ports: 
-           - 4317:4317 #gRPC: Sunucuda calisan bir fonksiyona ag üzerinden çagri yaparsin ama kodda sanki o fonksiyon localdeymis gibi görünür.
-           - 4318:4318 #HTTP bunu grpc üzerinden saglicaz.
+           - 4317:4317 #gRPC: Sunucuda calisan bir fonksiyona ag ï¿½zerinden ï¿½agri yaparsin ama kodda sanki o fonksiyon localdeymis gibi gï¿½rï¿½nï¿½r.
+           - 4318:4318 #HTTP bunu grpc ï¿½zerinden saglicaz.
            - 16686:16686 #UI
+  zipkin:
+   container_name: "zipkin-container"
+   ports:
+          - 9411:9411 #UI

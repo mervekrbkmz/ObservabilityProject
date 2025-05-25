@@ -19,9 +19,11 @@ namespace Observability.App
         var result = await httpClient.GetAsync("https://www.google.com");
         var eventTags = new ActivityTagsCollection();
         eventTags.Add("userId", 30);
-        eventTags.Add("env", "prod");
-        eventTags.Add("env", "prod");
-
+        if (!eventTags.ContainsKey("env"))
+        {
+          eventTags.Add("env", "prod");
+        }
+        //activity tagı
         activity.AddEvent(new("started request to google", tags: eventTags));
         activity.AddTag("request.schema", "https");
         activity.AddTag("request.metho", "get");
@@ -29,11 +31,13 @@ namespace Observability.App
 
 
         var responseContent = await result.Content.ReadAsStringAsync();
+        //eventtags key value seklinde gösterdim, 
         eventTags.Add("google body length", responseContent.Length);
         activity.AddEvent(new("completed request to google", tags: eventTags));
 
         var servicesTwo = new ServiceTwo();
         var fileLength = await servicesTwo.WriteToFile("hello world");
+
         Console.WriteLine($"file length: {fileLength}");
 
 
