@@ -15,7 +15,7 @@ namespace Observability.App
       using var activity = ActivitySourceProvider.source.StartActivity();
       var serviceOne = new ServiceOne();
 
-      var result = await serviceOne.MakeRequestToGoogleAsync(); // .Result.Length var olan async bozup sync çevirir ve işlemi yapıcak olan threadi bloklar.Best bractices değil.Suanki await ile kullanım
+      var result = await serviceOne.MakeRequestToGoogleAsync();
 
       activity.SetTag("work tag", "value");
       activity.SetTag("work duration", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));

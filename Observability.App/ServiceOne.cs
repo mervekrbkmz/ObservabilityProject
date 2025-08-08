@@ -31,7 +31,7 @@ namespace Observability.App
 
 
         var responseContent = await result.Content.ReadAsStringAsync();
-        //eventtags key value seklinde gösterdim, 
+        //eventtags key value seklinde gösterdim
         eventTags.Add("google body length", responseContent.Length);
         activity.AddEvent(new("completed request to google", tags: eventTags));
 
