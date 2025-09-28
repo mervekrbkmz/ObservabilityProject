@@ -10,6 +10,6 @@ namespace Order.API.OpenTelemetry
 {
   public class ActivitySourceProvider
   {
-    public static ActivitySource Source; //bu sınıftan üretilen dataaları opentelemtry formatına uygun üreticek.
+    //public static  ActivitySource source= new ActivitySource(OpenTelemetryConstants.ActivitySourceName); //bu sınıftan üretilen dataaları opentelemtry formatına uygun üreticek.
   }
 }
