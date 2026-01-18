@@ -1,6 +1,7 @@
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Order.API;
+using Order.API.Models;
 using Order.API.OpenTelemetry;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,12 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-
+builder.Services.AddScoped<OrderService>();//DI Container. Ä°htiyacÄ±m oldugunda kullanbilmem iÃ§in constructor olarak kullanabilmek.
 builder.Services.Configure<OpenTelemetryConstants>(builder.Configuration.GetSection("OpenTelemetry")); //appsettingden register ettim.
 var openTelemetryConstants = builder.Configuration
     .GetSection("OpenTelemetry")
     .Get<OpenTelemetryConstants>()!;
-//apsettings içeriisndeki datayý aldým.optionspoattern tip güvenli.BURADAN NULL DEGER GELEMEZ.
+//apsettings iï¿½eriisndeki datayï¿½ aldï¿½m.optionspoattern tip gï¿½venli.BURADAN NULL DEGER GELEMEZ.
 
 builder.Services.AddOpenTelemetry().WithTracing(options =>
 {
@@ -32,15 +33,15 @@ builder.Services.AddOpenTelemetry().WithTracing(options =>
       }
       return false;
     };
-    coreOptions.RecordException = true;//hata detaylarýný kaydetmek için.stacktrace gibi detyalý.loglamamýz varsa olmayadabilir.
+    coreOptions.RecordException = true;//hata detaylarï¿½nï¿½ kaydetmek iï¿½in.stacktrace gibi detyalï¿½.loglamamï¿½z varsa olmayadabilir.
 
-  });//Traceleme INSTURMANTAÝN ÝLE
+  });//Traceleme INSTURMANTAï¿½N ï¿½LE
 
   options.AddHttpClientInstrumentation();
   options.AddConsoleExporter();//export etme console
-  options.AddOtlpExporter(); //expoert etme jaeger için
+  options.AddOtlpExporter(); //expoert etme jaeger iï¿½in
 });
-ActivitySourceProvider.Source = new System.Diagnostics.ActivitySource(openTelemetryConstants.ActivitySourceName); //OpenTelemetryConstants sýnýfýndan aldýðýmýz ActivitySourceName ile yeni bir ActivitySource oluþturduk.ACTÝVÝTYSORUCE BÝLGÝLERÝNÝ BU ÞEKÝLDE ALDIM.
+ActivitySourceProvider.Source = new System.Diagnostics.ActivitySource(openTelemetryConstants.ActivitySourceName); //OpenTelemetryConstants sï¿½nï¿½fï¿½ndan aldï¿½ï¿½ï¿½mï¿½z ActivitySourceName ile yeni bir ActivitySource oluï¿½turduk.ACTï¿½Vï¿½TYSORUCE Bï¿½LGï¿½LERï¿½Nï¿½ BU ï¿½EKï¿½LDE ALDIM.
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
