@@ -25,16 +25,29 @@ public static class OpenTelemetryExtensions
         services.AddOpenTelemetry()
             .WithTracing(options =>
             {
-                options
-                    .AddSource(openTelemetryConstants.ActivitySourceName)
-                    .ConfigureResource(resource =>
-                    {
-                        resource.AddService(
+                options.AddSource(openTelemetryConstants.ActivitySourceName).ConfigureResource(resource =>
+                {resource.AddService(
                             openTelemetryConstants.ServiceName,
                             serviceVersion: openTelemetryConstants.ServiceVersion);
                     });
-            });
+                options.AddAspNetCoreInstrumentation(aspnetcoreOptions =>
+                {
+                    aspnetcoreOptions.Filter = (context) =>
+                     {
 
-        return services;
+                         if (!string.IsNullOrEmpty(context.Request.Path.Value))
+                         {
+                             return context.Request.Path.Value.Contains("api", StringComparison.InvariantCulture);
+                         }
+                         return false;
+                     };
+                });
+                options.AddConsoleExporter();
+                options.AddOtlpExporter(opt =>
+            {
+                opt.Endpoint = new Uri("http://localhost:4317");
+            });
+            });
+            return services;
     }
 }
