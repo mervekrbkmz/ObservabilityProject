@@ -4,9 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Order.API.OpenTelemetry;
 
-namespace Order.API.OpenTelemetry
+namespace OpenTelemetry.Shared
 {
   public class ActivitySourceProvider
   {

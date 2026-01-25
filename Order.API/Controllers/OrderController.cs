@@ -26,12 +26,12 @@ namespace Order.API.Controllers
 
       return Ok("Order Service is working...");
     }
-    [HttpPost]
-    public async Task<IActionResult> Create(OrderCreateRequestDto requestDto)
-    {
-      await _orderService.CreateAsync(requestDto);
+    // [HttpPost]
+    // public async Task<IActionResult> Create(OrderCreateRequestDto requestDto)
+    // {
+    //   //await _orderService.CreateAsync(requestDto);
 
-      return Ok("Order Service is working...");
-    }
+    //   return Ok("Order Service is working...");
+    // }
   }
 }

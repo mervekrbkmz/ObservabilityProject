@@ -4,7 +4,7 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>5bf7bfa6-d36c-4e66-892e-d78b7e3f575b</ProjectGuid>
+    <ProjectGuid>7ea9bc9f-c13b-4534-aeb0-bc7d122f2c81</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
@@ -12,5 +12,6 @@
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
+    <None Include="otel-collector-config.yaml" />
   </ItemGroup>
 </Project>
