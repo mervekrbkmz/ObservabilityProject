@@ -9,7 +9,7 @@ namespace Order.API.OrderServices
     {
         //record : ordercretatedimmuttable maplendiği anda bir daha değiştirilmesin
         public string UserId { get; init; } = null!;
-        List<OrderItemDto> OrderItems { get; set; } = new();
+        List<OrderItemDto> OrderItems { get; set; } = null!;
     }
     public record OrderItemDto
     {
